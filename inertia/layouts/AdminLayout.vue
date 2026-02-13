@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LayoutDashboard, Key, Users, BookOpen, User as UserIcon } from 'lucide-vue-next'
+import { LayoutDashboard, Key, Users, BookOpen, User as UserIcon, Cpu, Activity } from 'lucide-vue-next'
 import Sidebar from '../components/Sidebar.vue'
 import Topbar from '../components/Topbar.vue'
 import Toast from 'primevue/toast'
@@ -7,6 +7,8 @@ import ConfirmDialog from 'primevue/confirmdialog'
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Dispositivos', href: '/devices', icon: Cpu },
+    { name: 'Sensores', href: '/sensors', icon: Activity },
     { name: 'API Keys', href: '/api-keys', icon: Key },
     { name: 'Usuários', href: '/users', icon: Users },
     { name: 'Documentação', href: '/docs', icon: BookOpen },

@@ -15,4 +15,7 @@ export const systemModules: SystemModule[] = [
   { slug: 'users', name: 'Usuários', description: 'Gerenciamento de usuários' },
   { slug: 'api-keys', name: 'Chaves de API', description: 'Gerenciamento de chaves de API' },
   { slug: 'dashboard', name: 'Dashboard', description: 'Acesso ao dashboard' },
+  { slug: 'devices', name: 'Dispositivos', description: 'Gerenciamento de dispositivos IoT' },
+  { slug: 'sensors', name: 'Sensores', description: 'Gerenciamento de sensores' },
+  { slug: 'readings', name: 'Leituras', description: 'Acesso a leituras de sensores' },
 ]

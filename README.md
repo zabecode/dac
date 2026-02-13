@@ -1,79 +1,90 @@
-# Zabe Analytic
+# DAC — Data Acquisition Controller
 
-Zabe Analytic is a monitoring and observability platform for n8n workflows. It allows users to ingest error logs from n8n via webhooks, visualize them on a dashboard, and receive notifications.
+Plataforma IoT multi-tenant para gerenciamento de dispositivos, sensores e coleta de leituras. Autenticação dupla: sessão para frontend, API Key segura para integrações externas.
 
-## Features
+## Funcionalidades
 
-- **Dashboard**: Real-time stats and error trends.
-- **Error Logging**: Detailed error storage with stack traces and JSON payloads.
-- **Workflow Management**: Organize workflows and assign them to clients.
-- **Notification Channels**: Webhook integration for Slack, Discord, etc.
-- **Role-Based Access**: separate views for Admins and Clients.
-- **Internationalization**: Fully translated to Portuguese (pt-BR).
+- **Dispositivos IoT**: Registro e monitoramento de dispositivos via MAC address.
+- **Sensores**: Gestão de sensores (Modbus, MQTT, HTTP, Custom) vinculados a dispositivos.
+- **Leituras**: Coleta de dados de sensores com tipos (unique, multiple, custom) e modos de entrada (automatic, manual, scheduled).
+- **Gateway API**: Endpoints especializados para publicação em lote (device upsert, batch readings).
+- **API Keys**: Chaves seguras com hash SHA-256, permissões por módulo, expiração opcional e identificador de tenant.
+- **Dashboard**: Painel administrativo com visão geral do sistema.
+- **Multi-tenancy**: Isolamento de dados por `identifier` da API Key.
 
-## Quick Start (Development)
+## Tech Stack
 
-1.  **Install Dependencies**
+| Camada    | Tecnologia                                |
+| --------- | ----------------------------------------- |
+| Backend   | AdonisJS v6 (TypeScript)                  |
+| Frontend  | Vue 3 + Inertia.js                        |
+| UI        | PrimeVue v4 (Aura Theme) + TailwindCSS v4 |
+| Icons     | lucide-vue-next                           |
+| Database  | MySQL                                     |
+| Real-time | AdonisJS Transmit                         |
 
-    ```bash
-    npm install
-    ```
-
-2.  **Environment Setup**
-    Copy `.env.example` to `.env` and configure your database credentials.
-
-    ```bash
-    cp .env.example .env
-    node ace generate:key
-    ```
-
-3.  **Database Migration**
-
-    ```bash
-    node ace migration:run
-    ```
-
-4.  **Run Development Server**
-    ```bash
-    npm run dev
-    ```
-
-## 🐳 Deploy no Coolify
-
-O projeto está **100% pronto** para deploy no Coolify via Git!
-
-### Pré-requisitos
-
-- MySQL 8.0 configurado no Coolify
-- Redis 7 configurado no Coolify
-
-### Deploy Rápido
-
-1. **Criar aplicação no Coolify**
-   - Source: Git Repository
-   - Build Pack: **Dockerfile**
-   - Port: **3333**
-
-2. **Configurar variáveis de ambiente** (ver `.env.production.template`)
-
-3. **Executar migrations após primeiro deploy**
-   ```bash
-   node ace migration:run --force
-   ```
-
-📖 **Guia completo de deploy**: Ver [`DEPLOY.md`](./DEPLOY.md)
-
-## Production Build
+## Quick Start
 
 ```bash
+# 1. Instalar dependências
+npm install
+
+# 2. Configurar ambiente
+cp .env.example .env
+node ace generate:key
+
+# 3. Rodar migrations
+node ace migration:run
+
+# 4. Servidor de desenvolvimento
+npm run dev
+```
+
+## Deploy (Dokploy/Docker)
+
+```bash
+# Build de produção
 node ace build
 cd build
 npm ci --omit="dev"
 node bin/server.js
 ```
 
-## Documentation
+📖 Guia completo: [`DEPLOY.md`](./DEPLOY.md)
 
-- [`DEPLOY.md`](./DEPLOY.md) - **Guia completo de deploy no Coolify**
-- [`PROJECT_REPORT.md`](./PROJECT_REPORT.md) - Detailed audit of the current project status
-- [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md) - Design system documentation
+## Estrutura do Projeto
+
+```
+app/
+├── controllers/          # 11 controllers (Inertia + API)
+├── middleware/            # 9 middleware (auth, apiAuth, superUser...)
+├── models/               # 5 models (User, ApiKey, Device, Sensor, Reading)
+├── services/             # 6 services (ApiKeySecure, Device, Sensor, Reading...)
+├── validators/           # Validação com VineJS
+└── exceptions/           # Custom exceptions
+config/
+├── modules.ts            # Registry de módulos do sistema
+database/
+├── migrations/           # 8 migrations
+inertia/
+├── pages/                # Páginas Vue (dashboard, devices, sensors, api_keys...)
+├── layouts/              # AdminLayout, ClientLayout, AppLayout
+├── components/           # Listing, DrawerView, Sidebar, Topbar...
+start/
+├── routes/               # 9 arquivos de rotas separados
+```
+
+## API Endpoints
+
+Todas as rotas IoT requerem header `Authorization: Bearer <API_KEY>`:
+
+| Recurso  | Endpoints                                 | Permissão  |
+| -------- | ----------------------------------------- | ---------- |
+| Devices  | CRUD + `POST /api/v1/dac/devices/publish` | `devices`  |
+| Sensors  | CRUD completo                             | `sensors`  |
+| Readings | CRUD + `POST /api/v1/dac/readings/batch`  | `readings` |
+
+## Documentação
+
+- [`AI_CONTEXT.md`](./AI_CONTEXT.md) — Guia para IA/Assistentes
+- [`DEPLOY.md`](./DEPLOY.md) — Deploy com Docker/Dokploy

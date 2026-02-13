@@ -1,11 +1,11 @@
-# Deployment Guide (Dokploy)
+# DAC — Deployment Guide (Dokploy)
 
 This project is configured to be deployed using **Docker**.
 
 ## Prerequisites
 
 - A Dokploy instance set up.
-- A database (MySQL/PostgreSQL) and Redis 7 accessible by the application container.
+- A MySQL 8.0 database and Redis 7 accessible by the application container.
 
 ## Configuration
 

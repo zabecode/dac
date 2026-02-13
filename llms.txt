@@ -1,15 +1,35 @@
-# Contextual Analytics SaaS
+# DAC — Data Acquisition Controller
 
-> A multi-tenant platform for managing hierarchical assets and integrations with real-time analytics.
+> Multi-tenant IoT platform for device management, sensor monitoring, and reading collection.
 
 ## Core Documentation
-- [Project Overview](file:///work/dev/git/zabe/analytic/AI_CONTEXT.md)
-- [Modules Guide](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/MODULES_GUIDE.md)
-- [Database Schema](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/DATABASE_SCHEMA.md)
-- [Frontend Guide](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/FRONTEND_GUIDE.md)
+- [AI Context](./AI_CONTEXT.md) — Architecture, rules, and patterns for AI assistants
+- [Deploy Guide](./DEPLOY.md) — Docker/Dokploy deployment instructions
 
-## Key Concepts
-- **Multi-tenancy**: Workspace ownership and isolation via `workspaceCode`.
-- **Hierarchy**: Recursive Space model (Department -> Area -> Line).
-- **Real-time**: AdonisJS Transmit (`BroadcastService`) triggers updates.
-- **Frontend**: Inertia.js protocol serving Vue 3 components.
+## Architecture
+- **Stack**: AdonisJS v6, Vue 3, Inertia.js, PrimeVue v4, TailwindCSS v4, MySQL
+- **Multi-tenancy**: Data isolation via `identifier` field on API Keys
+- **Auth (Frontend)**: Session-based via `@adonisjs/auth`
+- **Auth (API)**: API Key with SHA-256 hash, module permissions, optional expiration
+
+## Domain Models
+- **User**: System users (SuperUser / regular)
+- **ApiKey**: Hashed keys with `permissions[]`, `identifier`, `expiresAt`
+- **Device**: IoT devices (MAC, IP, metadata), scoped by `identifier`
+- **Sensor**: Sensors (code, kind: modbus/mqtt/http/custom), scoped by `identifier`
+- **Reading**: Sensor readings (value, kind, entry, grouping), scoped by `identifier`
+
+## System Modules
+`users`, `api-keys`, `dashboard`, `devices`, `sensors`, `readings`
+
+## API Endpoints (Bearer API Key)
+- `CRUD /api/v1/devices` + `POST /api/v1/dac/devices/publish`
+- `CRUD /api/v1/sensors`
+- `CRUD /api/v1/readings` + `POST /api/v1/dac/readings/batch`
+
+## Frontend Pages
+- `/dashboard` — System overview
+- `/devices` — Device listing with detail drawer
+- `/sensors` — Sensor listing with detail drawer
+- `/api-keys` — API Key management (create, edit, revoke)
+- `/docs` — API documentation
