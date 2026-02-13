@@ -1,0 +1,15 @@
+# Contextual Analytics SaaS
+
+> A multi-tenant platform for managing hierarchical assets and integrations with real-time analytics.
+
+## Core Documentation
+- [Project Overview](file:///work/dev/git/zabe/analytic/AI_CONTEXT.md)
+- [Modules Guide](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/MODULES_GUIDE.md)
+- [Database Schema](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/DATABASE_SCHEMA.md)
+- [Frontend Guide](file:///home/ideilson/.gemini/antigravity/brain/94e82879-ec85-47b9-9325-28165dc9e79e/FRONTEND_GUIDE.md)
+
+## Key Concepts
+- **Multi-tenancy**: Workspace ownership and isolation via `workspaceCode`.
+- **Hierarchy**: Recursive Space model (Department -> Area -> Line).
+- **Real-time**: AdonisJS Transmit (`BroadcastService`) triggers updates.
+- **Frontend**: Inertia.js protocol serving Vue 3 components.

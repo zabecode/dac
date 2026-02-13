@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary: #3b82f6;
+  --color-secondary: #f1f5f9; /* Slate 100 */
+  --color-accent: #3b82f6;
+  --color-background: #f8fafc; /* Slate 50 - Off-white background */
+  --color-surface: #ffffff; /* White - Surface/Cards */
+  --color-text: #1e293b; /* Slate 800 - Softer than pure black */
+  --color-text-muted: #64748b; /* Slate 500 */
+}
+
+.dark {
+  --color-secondary: #282828;
+  --color-background: #1c1c1c;
+  --color-surface: #282828;
+  --color-text: #fafafa; /* Zinc 50 */
+  --color-text-muted: #a1a1aa; /* Zinc 400 */
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-white/10 dark:bg-black/10 backdrop-blur-lg border border-white/20 dark:border-white/10;
+}
+
+.glass-card {
+  @apply bg-surface/50 backdrop-blur-xl border border-zinc-200 dark:border-white/10 rounded-xl;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-300 dark:bg-zinc-700/50 rounded-full hover:bg-zinc-400 dark:hover:bg-zinc-600/50;
+}
